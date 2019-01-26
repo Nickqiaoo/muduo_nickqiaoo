@@ -2,6 +2,7 @@
 // that can be found in the License file.
 //
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
+// Modified: Yingjie Qiao
 
 #include "CurrentThread.h"
 

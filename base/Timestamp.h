@@ -1,3 +1,9 @@
+// Use of this source code is governed by a BSD-style license
+// that can be found in the License file.
+//
+// Author: Shuo Chen (chenshuo at chenshuo dot com)
+// Modified: Yingjie Qiao
+
 #pragma once
 
 #include <chrono>
@@ -18,7 +24,7 @@ namespace clock {
 
 inline Timestamp now() { return system_clock::now(); }
 
-string toFormattedString(Timestamp t) {
+string toFormattedString(Timestamp&& t) {
     char buf[64] = {0};
     time_t seconds = static_cast<time_t>(t.time_since_epoch().count() / (1000 * 1000));
     struct tm tm_time;

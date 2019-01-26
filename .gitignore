@@ -1,2 +1,3 @@
-a.out
+*_test
 test.cc
+*.json

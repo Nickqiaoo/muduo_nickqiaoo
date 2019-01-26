@@ -13,7 +13,7 @@ const int kSmallBuffer = 4000;
 const int kLargeBuffer = 4000 * 1000;
 
 template <int SIZE>
-class FixedBuffer : nocopyable {
+class FixedBuffer : noncopyable {
    public:
     FixedBuffer() : cur_(data_) { setCookie(cookieStart); }
     ~FixedBuffer() { setCookie(cookieEnd); }

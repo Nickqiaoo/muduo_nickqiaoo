@@ -1,6 +1,6 @@
 #include "Logging.h"
-//#include "CurrentThread.h"
-#include "Timestamp.h"
+#include "CurrentThread.h"
+//#include "Timestamp.h"
 //#include "TimeZone.h"
 
 #include <errno.h>
@@ -33,10 +33,6 @@ class LoggerImpl
 __thread char t_errnobuf[512];
 __thread char t_time[64];
 __thread time_t t_lastSecond;
-__thread pid_t tid = -1;
-
-template <typename T>
-size_t convert(char buf[], T value);
 
 const char* strerror_tl(int savedErrno) {
     return strerror_r(savedErrno, t_errnobuf, sizeof t_errnobuf);
@@ -95,12 +91,8 @@ using namespace muduo;
 Logger::Impl::Impl(LogLevel level, int savedErrno, const SourceFile& file, int line)
     : time_(clock::now()), stream_(), level_(level), line_(line), basename_(file) {
     formatTime();
-    // CurrentThread::tid();
-    if (tid == -1) tid = static_cast<pid_t>(::syscall(SYS_gettid));
-    char buf[8];
-    size_t len = convert(buf, tid);
-    // stream_ << T(CurrentThread::tidString(), CurrentThread::tidStringLength());
-    stream_ << T(buf, len);
+    CurrentThread::tid();
+    stream_ << T(CurrentThread::tidString(), CurrentThread::tidStringLength());
     stream_ << T(LogLevelName[level], 6);
     if (savedErrno != 0) {
         stream_ << strerror_tl(savedErrno) << " (errno=" << savedErrno << ") ";
@@ -109,8 +101,8 @@ Logger::Impl::Impl(LogLevel level, int savedErrno, const SourceFile& file, int l
 
 void Logger::Impl::formatTime() {
     int64_t microSecondsSinceEpoch = time_.time_since_epoch().count();
-    time_t seconds = static_cast<time_t>(microSecondsSinceEpoch / 1000);
-    int microseconds = static_cast<int>(microSecondsSinceEpoch % 1000);
+    time_t seconds = static_cast<time_t>(microSecondsSinceEpoch / (1000 * 1000));
+    int microseconds = static_cast<int>(microSecondsSinceEpoch % (1000 * 1000));
     if (seconds != t_lastSecond) {
         t_lastSecond = seconds;
         struct tm tm_time;

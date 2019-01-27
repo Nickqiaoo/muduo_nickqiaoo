@@ -82,7 +82,7 @@ void AsyncLogging::threadFunc() {
         if (buffersToWrite.size() > 25) {
             char buf[256];
             snprintf(buf, sizeof buf, "Dropped log messages at %s, %zd larger buffers\n",
-                     clock::toFormattedString(std::move(clock::now())).c_str(),
+                     clock::toFormattedString(clock::now()).c_str(),
                      buffersToWrite.size() - 2);
             fputs(buf, stderr);
             output.append(buf, static_cast<int>(strlen(buf)));

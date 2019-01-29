@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <gperftools/profiler.h>
 
 int g_total;
 FILE* g_file;
@@ -55,6 +56,7 @@ int main()
 {
   getppid(); // for ltrace and strace
 
+  ProfilerStart("test.prof");
   muduo::ThreadPool pool;
   pool.start(5);
   pool.run(logInThread);
@@ -95,7 +97,7 @@ int main()
   g_logFile.reset(new muduo::LogFile("test_log_mt", 500*1000*1000, true));
   bench("test_log_mt");
   g_logFile.reset();
-
+  ProfilerStop();
   /*
   {
   g_file = stdout;

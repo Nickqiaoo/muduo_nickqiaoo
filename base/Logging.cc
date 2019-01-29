@@ -14,6 +14,7 @@
 #include <string.h>
 #include <sys/syscall.h>
 #include <unistd.h>
+#include <assert.h>
 
 #include <sstream>
 

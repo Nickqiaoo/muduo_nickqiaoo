@@ -11,6 +11,7 @@
 namespace muduo {
 
 using std::chrono::system_clock;
+using std::string;
 
 typedef std::chrono::nanoseconds Nanosecond;
 typedef std::chrono::microseconds Microsecond;

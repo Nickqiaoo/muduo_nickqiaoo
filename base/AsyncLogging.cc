@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 using namespace muduo;
-using namespace std::chrono_literals;
+//using namespace std::literals::chrono_literals;
 
 AsyncLogging::AsyncLogging(const string& basename, off_t rollSize, int flushInterval)
     : flushInterval_(flushInterval),
@@ -67,7 +67,7 @@ void AsyncLogging::threadFunc() {
             std::unique_lock<std::mutex> lock(mutex_);
             if (buffers_.empty())  // unusual usage!
             {
-                cond_.wait_for(lock, flushInterval_ * 1s);
+                cond_.wait_for(lock, flushInterval_ * muduo::Second(1));
             }
             buffers_.push_back(std::move(currentBuffer_));
             currentBuffer_ = std::move(newBuffer1);

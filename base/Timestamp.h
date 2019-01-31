@@ -10,8 +10,8 @@
 
 namespace muduo {
 
-using std::chrono::system_clock;
 using std::string;
+using std::chrono::system_clock;
 
 typedef std::chrono::nanoseconds Nanosecond;
 typedef std::chrono::microseconds Microsecond;
@@ -24,6 +24,9 @@ typedef std::chrono::time_point<system_clock, Microsecond> Timestamp;
 namespace clock {
 
 inline Timestamp now() { return std::chrono::time_point_cast<Microsecond>(system_clock::now()); }
+inline Timestamp addTime(Timestamp timestamp, double seconds) {
+    return timestamp + std::chrono::duration<double, std::chrono::seconds>(seconds);
+}
 
 inline string toFormattedString(const Timestamp& t) {
     char buf[64] = {0};
@@ -43,7 +46,13 @@ inline string toString(const Timestamp& t) {
     char buf[32] = {0};
     int64_t seconds = t.time_since_epoch().count() / (1000 * 1000);
     int64_t microseconds = t.time_since_epoch().count() % (1000 * 1000);
-    snprintf(buf, sizeof(buf) - 1, "%" "ld" ".%06" "ld" "", seconds, microseconds);
+    snprintf(buf, sizeof(buf) - 1,
+             "%"
+             "ld"
+             ".%06"
+             "ld"
+             "",
+             seconds, microseconds);
     return buf;
 }
 

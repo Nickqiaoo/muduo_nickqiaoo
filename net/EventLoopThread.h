@@ -17,33 +17,29 @@
 #include <mutex>
 #include <thread>
 
-namespace muduo
-{
-namespace net
-{
+namespace muduo {
+namespace net {
 
 class EventLoop;
 
-class EventLoopThread : noncopyable
-{
- public:
-  typedef std::function<void(EventLoop*)> ThreadInitCallback;
+class EventLoopThread : noncopyable {
+   public:
+    typedef std::function<void(EventLoop*)> ThreadInitCallback;
 
-  EventLoopThread(const ThreadInitCallback& cb = ThreadInitCallback());
-  ~EventLoopThread();
-  EventLoop* startLoop();
+    EventLoopThread(const ThreadInitCallback& cb = ThreadInitCallback());
+    ~EventLoopThread();
+    EventLoop* startLoop();
 
- private:
-  void threadFunc();
+   private:
+    void threadFunc();
 
-  EventLoop* loop_ ;
-  bool exiting_;
-  std::thread thread_;
-  std::mutex mutex_;
-  std::condition_variable cond_ ;
-  ThreadInitCallback callback_;
+    EventLoop* loop_;
+    bool exiting_;
+    std::thread thread_;
+    std::mutex mutex_;
+    std::condition_variable cond_;
+    ThreadInitCallback callback_;
 };
 
 }  // namespace net
 }  // namespace muduo
-

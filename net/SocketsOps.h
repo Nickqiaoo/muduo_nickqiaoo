@@ -5,6 +5,7 @@
 // that can be found in the License file.
 
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
+// Modified: Yingjie Qiao
 //
 // This is an internal header file, you should not include this.
 
@@ -12,37 +13,30 @@
 
 #include <arpa/inet.h>
 
-namespace muduo
-{
-namespace net
-{
-namespace sockets
-{
+namespace muduo {
+namespace net {
+namespace sockets {
 
 ///
 /// Creates a non-blocking socket file descriptor,
 /// abort if any error.
 int createNonblockingOrDie(sa_family_t family);
 
-int  connect(int sockfd, const struct sockaddr* addr);
+int connect(int sockfd, const struct sockaddr* addr);
 void bindOrDie(int sockfd, const struct sockaddr* addr);
 void listenOrDie(int sockfd);
-int  accept(int sockfd, struct sockaddr_in6* addr);
-ssize_t read(int sockfd, void *buf, size_t count);
-ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt);
-ssize_t write(int sockfd, const void *buf, size_t count);
+int accept(int sockfd, struct sockaddr_in6* addr);
+ssize_t read(int sockfd, void* buf, size_t count);
+ssize_t readv(int sockfd, const struct iovec* iov, int iovcnt);
+ssize_t write(int sockfd, const void* buf, size_t count);
 void close(int sockfd);
 void shutdownWrite(int sockfd);
 
-void toIpPort(char* buf, size_t size,
-              const struct sockaddr* addr);
-void toIp(char* buf, size_t size,
-          const struct sockaddr* addr);
+void toIpPort(char* buf, size_t size, const struct sockaddr* addr);
+void toIp(char* buf, size_t size, const struct sockaddr* addr);
 
-void fromIpPort(const char* ip, uint16_t port,
-                struct sockaddr_in* addr);
-void fromIpPort(const char* ip, uint16_t port,
-                struct sockaddr_in6* addr);
+void fromIpPort(const char* ip, uint16_t port, struct sockaddr_in* addr);
+void fromIpPort(const char* ip, uint16_t port, struct sockaddr_in6* addr);
 
 int getSocketError(int sockfd);
 
